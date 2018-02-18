@@ -5,13 +5,15 @@ using UnityEngine;
 
 abstract public class Tower : MonoBehaviour {
 
+	[SerializeField] GameObject shot_prefab = null;
+
 	[SerializeField] protected float damage = 1;
 	[SerializeField] protected float range = 1;
 	/// rate of fire per second
 	[SerializeField] protected float fire_rate = 1;
 
 	[SerializeField] protected List<EnemyController> targets_in_range = null;
-	[SerializeField] protected EnemyController current_target = null;
+	[SerializeField] protected GameObject current_target = null;
 
 	protected bool can_shoot = true;
 
@@ -28,28 +30,28 @@ abstract public class Tower : MonoBehaviour {
 		this.targets_in_range.Add(enemy);
 
 		if(!this.current_target)
-			this.current_target = enemy;
+			this.current_target = enemy.gameObject;
 	}
 
 	virtual protected void OnTriggerExit(Collider other_collider){
+		//print("yup it ran");
 		if(other_collider.tag != "Enemy")
 			return;
 
 		EnemyController enemy = other_collider.GetComponent<EnemyController> ();
 
-		if(this.current_target == enemy){
-			this.current_target = null;
-			this.retarget();
-			return;
-		}
+//		if(this.c){
+//			this.current_target = null;
+//			return;
+//		}
 
 		try{
 			this.targets_in_range.Remove(enemy);
 		}
 		catch (Exception exception){
-			throw new NotImplementedException();
+			print(exception.Message);
 		}
-
+		//this.retarget();
 	}
 
 	virtual protected IEnumerator reload(){
@@ -67,7 +69,7 @@ abstract public class Tower : MonoBehaviour {
 				continue;
 			}
 				
-			this.current_target = enemy;
+			this.current_target = enemy.gameObject;
 			return;
 		}
 	}

@@ -3,6 +3,8 @@ using UnityEngine;
 
 static public class GameController{
 
+	static public GAME_MODES game_mode = GAME_MODES.Path;
+
 	static public Object load(string path){
 		Object wanted_object = Resources.Load(path);
 		if(!wanted_object){
@@ -22,4 +24,10 @@ static public class GameController{
 		else
 			SceneManager.LoadSceneAsync(scene_name);
 	}
+
+	public enum GAME_MODES{
+		Classic = 0,
+		Path = 1,
+	}
+
 }
